@@ -1,0 +1,31 @@
+<div class="container">
+  <header>
+    <h1>Todo List</h1>
+
+    <blaze-template name="loginButtons"></blaze-template>
+
+    <label class="hide-completed">
+      <input type="checkbox" ng-model="vm.hideCompleted">
+      Hide Completed Tasks
+    </label>
+
+    <form class="new-task" ng-submit="vm.addTask(newTask); newTask='';" ng-show="$root.currentUser">
+      <input ng-model="newTask" type="text" name="text" placeholder="Type to add new tasks">
+
+      <button type="submit">Submit</button>
+    </form>
+  </header>
+
+  <ul>
+    <li ng-repeat="task in vm.tasks" ng-class="{ 'checked': task.checked, 'private': task.private  }">
+      <button class="delete" ng-click="vm.deleteTask(task)">&times;</button>
+      <input type="checkbox" ng-checked="task.checked" ng-click="vm.setChecked(task)" class="toggle-checked">
+      <button class="toggle-private"
+              ng-if="task.owner === $root.currentUser._id"
+              ng-click = "vm.setPrivate(task)">
+        {{task.private == true ? "Private" : "Public"}}
+      </button>
+      {{ task.text }} by:{{ task.username }}
+    </li>
+  </ul>
+</div>
